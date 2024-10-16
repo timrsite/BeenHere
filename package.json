@@ -1,0 +1,12 @@
+{
+  "name": "yandex-music-app",
+  "version": "1.0.0",
+  "main": "server.js",
+  "dependencies": {
+    "@huggingface/inference": "^2.8.1",
+    "express": "^4.17.1"
+  },
+  "scripts": {
+    "start": "node server.js"
+  }
+}
