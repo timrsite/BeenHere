@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Been Here</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://api-maps.yandex.ru/2.1/?apikey=ВАШ_API_КЛЮЧ&lang=ru_RU" type="text/javascript"></script>
+</head>
+<body>
+    <div id="map"></div>
+
+    <div class="overlay">
+        <div class="overlay-handle"></div>
+        <h1>Been Here</h1>
+        <p>Привет, <span class="username">Пользователь</span>!</p>
+        <p>Вы посетили <span class="highlight">5 мест</span> за последнюю неделю.</p>
+        <p>Ваши друзья тоже были в некоторых из этих мест. Нажмите на их аватары, чтобы увидеть видео.</p>
+    </div>
+
+    <button class="show-overlay-btn">↓</button>
+
+    <div id="expanded-video" class="expanded-video">
+        <div class="video-container">
+            <video src="" controls></video>
+            <div class="reactions-bar">
+                <button class="reaction-btn">👍</button>
+                <button class="reaction-btn">❤️</button>
+                <button class="reaction-btn">😮</button>
+                <button class="reaction-btn">😂</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
