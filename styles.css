@@ -1,0 +1,316 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap');
+
+:root {
+    --gradient-start: #9C27B0;
+    --gradient-end: #FF9E80;
+    --text-color: #FFFFFF;
+    --overlay-bg: rgba(156, 39, 176, 0.85);
+    --shadow-color: rgba(0, 0, 0, 0.2);
+    --clicked-bg: rgba(128, 128, 128, 0.5);
+}
+
+body, html {
+    font-family: 'Montserrat', sans-serif;
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+}
+
+#map {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    filter: saturate(1.2) contrast(1.1);
+}
+
+.overlay {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    right: 20px;
+    background-color: var(--overlay-bg);
+    padding: 20px 25px;
+    border-radius: 25px;
+    box-shadow: 0 10px 30px var(--shadow-color);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: var(--text-color);
+    transition: all 0.3s ease;
+    max-width: 400px;
+    margin: 0 auto;
+    transform: translateY(0);
+}
+
+.overlay.hidden {
+    transform: translateY(calc(-100% - 20px));
+}
+
+.overlay-handle {
+    width: 40px;
+    height: 5px;
+    background-color: rgba(255, 255, 255, 0.5);
+    border-radius: 2.5px;
+    margin: -10px auto 15px;
+    cursor: grab;
+}
+
+.show-overlay-btn {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background-color: var(--overlay-bg);
+    color: var(--text-color);
+    border: none;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    font-size: 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    box-shadow: 0 5px 15px var(--shadow-color);
+    transition: all 0.3s ease;
+    opacity: 0;
+    visibility: hidden;
+}
+
+.show-overlay-btn.visible {
+    opacity: 1;
+    visibility: visible;
+}
+
+.show-overlay-btn:hover {
+    transform: scale(1.1);
+}
+
+h1 {
+    font-size: 22px;
+    margin: 0 0 10px 0;
+    font-weight: 700;
+    color: var(--text-color);
+    letter-spacing: 0.5px;
+}
+
+.username {
+    color: var(--text-color);
+    font-weight: 700;
+    text-shadow: 0 2px 4px var(--shadow-color);
+}
+
+p {
+    margin: 8px 0;
+    font-size: 16px;
+    color: var(--text-color);
+    line-height: 1.5;
+}
+
+.highlight {
+    color: var(--gradient-end);
+    font-weight: 600;
+    text-shadow: 0 1px 2px var(--shadow-color);
+}
+
+.avatar-container {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    overflow: hidden;
+    position: relative;
+    background: linear-gradient(45deg, var(--gradient-start), var(--gradient-end));
+    padding: 3px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 15px var(--shadow-color);
+}
+
+.avatar-container:hover, .avatar-container:active {
+    transform: scale(1.1);
+}
+
+.avatar-container.clicked {
+    background: var(--clicked-bg);
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+    transform: scale(1);
+}
+
+.avatar-container.clicked:hover {
+    transform: scale(1.05);
+}
+
+.avatar-container video,
+.avatar-container .video-preview {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 2px solid var(--text-color);
+    box-sizing: border-box;
+}
+
+.avatar-container video {
+    display: none;
+}
+
+.avatar-container .play-pause-btn {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 30px;
+    height: 30px;
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 16px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.avatar-container:hover .play-pause-btn {
+    opacity: 1;
+}
+
+.expanded-video {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.9);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.4s ease;
+    z-index: 1000;
+}
+
+.expanded-video.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.video-container {
+    position: relative;
+    width: 90%;
+    max-width: 800px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.video-container video {
+    width: 100%;
+    border-radius: 20px;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+}
+
+.reactions-bar {
+    margin-top: 20px;
+    background-color: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(15px);
+    border-radius: 50px;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.reaction-btn {
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    font-size: 28px;
+    margin: 0 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.reaction-btn:hover, .reaction-btn:active {
+    transform: scale(1.15);
+    background: rgba(255, 255, 255, 0.3);
+    box-shadow: 0 8px 20px rgba(255, 255, 255, 0.3);
+}
+
+@media (max-width: 768px) {
+    .overlay {
+        top: 10px;
+        left: 10px;
+        right: 10px;
+        padding: 15px 20px;
+    }
+
+    h1 {
+        font-size: 20px;
+        margin-bottom: 8px;
+    }
+
+    p {
+        font-size: 14px;
+        margin: 5px 0;
+    }
+
+    .avatar-container {
+        width: 50px;
+        height: 50px;
+    }
+
+    .reactions-bar {
+        padding: 8px;
+    }
+
+    .reaction-btn {
+        width: 40px;
+        height: 40px;
+        font-size: 22px;
+        margin: 0 5px;
+    }
+}
+
+@media (max-width: 480px) {
+    .overlay {
+        padding: 12px 15px;
+    }
+
+    h1 {
+        font-size: 18px;
+    }
+
+    p {
+        font-size: 12px;
+    }
+
+    .avatar-container {
+        width: 45px;
+        height: 45px;
+    }
+
+    .reactions-bar {
+        padding: 6px;
+    }
+
+    .reaction-btn {
+        width: 35px;
+        height: 35px;
+        font-size: 18px;
+        margin: 0 4px;
+    }
+}
